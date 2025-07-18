@@ -38,6 +38,7 @@ export default function HomePage() {
             muted
             loop
             playsInline
+            poster='/assets/poster1.png'
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
               index === current ? 'opacity-100' : 'opacity-0'
             }`}

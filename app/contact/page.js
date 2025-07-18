@@ -78,15 +78,20 @@ export default function ContactPage() {
 
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <Mail className="text-indigo-600" />
-              <span>hello@indocsmedia.com</span>
-            </div>
+  <Mail className="text-[#6b22a4]" />
+  <a href="mailto:indocsmedia@gmail.com" className="hover:underline">
+    indocsmedia@gmail.com
+  </a>
+</div>
+<div className="flex items-center gap-4">
+  <Phone className="text-[#6b22a4]" />
+  <a href="tel:+919910892766" className="hover:underline">
+    +91 9910892766
+  </a>
+</div>
+
             <div className="flex items-center gap-4">
-              <Phone className="text-indigo-600" />
-              <span>+91 98765 43210</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <MapPin className="text-indigo-600" />
+              <MapPin className="text-[#6b22a4]" />
               <span>Delhi, India</span>
             </div>
           </div>
@@ -138,7 +143,7 @@ export default function ContactPage() {
 
           <button
             type="submit"
-            className="bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition"
+            className="bg-[#6b22a4] text-white px-6 py-3 rounded-full hover:bg-[#902ba9] transition"
           >
             Send Message
           </button>
