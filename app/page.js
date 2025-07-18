@@ -1,103 +1,105 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import ServicesSection from '@/component/ServicesSection';
+import Link from 'next/link';
+
+const videoList = [
+  '/assets/light.mp4',
+  '/assets/ai.mp4',
+  '/assets/header-2.mp4',
+  '/assets/lightbg.mp4'
+];
+
+export default function HomePage() {
+  const [current, setCurrent] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % videoList.length);
+    }, 10000); // Change every 10s
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="min-h-screen w-full bg-white text-gray-900">
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      {/* ===== Hero Section ===== */}
+      <section className="relative h-[90vh] w-full flex items-center justify-center overflow-hidden">
+
+        {/* Background Video Carousel */}
+        {videoList.map((src, index) => (
+          <video
+            key={index}
+            src={src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              index === current ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/50 z-10" />
+
+        {/* Logo & Animated Menu */}
+        <div className="fixed top-6 left-4 z-30">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="rounded-xl shadow-lg hover:scale-105 transition"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <img src="assets/logo.jpg" alt="Logo" className="w-[50px] h-[50px] rounded-md" />
+          </button>
+
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.3 }}
+                className="absolute mt-3 bg-black rounded-xl p-4 shadow-xl space-y-2 w-[150px] z-40"
+              > <Link href="#services" className="block text-sm hover:text-[#6b22a4] text-[#6b22a4] transition font-semibold">Home</Link>
+                <Link href="/services" className="block text-sm hover:text-[#6b22a4] text-white transition">Our Services</Link>
+                <Link href="/about" className="block text-sm hover:text-[#6b22a4] text-white transition">About Us</Link>
+                <Link href="/contact" className="block text-sm hover:text-[#6b22a4] text-white transition">Contact</Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+        {/* Hero Content */}
+        <div className="relative z-20 text-center text-white px-4 max-w-3xl">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Empowering Digital Brilliance</h1>
+          <p className="text-lg md:text-xl font-light mb-6">
+            We craft experiences across Web, Media, and Strategy with innovation at heart.
+          </p>
+          <Link href="/services" className="px-6 py-3 bg-[#902ba9] hover:bg-[#6b22a4] rounded-full font-semibold">
+            Explore Our Services
+          </Link>
+        </div>
+      </section>
+
+      {/* ===== Services Section ===== */}
+      <ServicesSection />
+
+      {/* ===== About CTA Section ===== */}
+      <section id="about" className="py-20 px-6 bg-white">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">We Are Indocs Media</h2>
+          <p className="text-lg text-gray-700 mb-6">
+            A fusion of creativity, technology, and strategy — ready to elevate your brand experience.
+          </p>
+          <Link href="/about" className="px-6 py-3 bg-black text-white rounded-full font-medium">
+            More About Us
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
